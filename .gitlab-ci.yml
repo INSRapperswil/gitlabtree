@@ -35,8 +35,8 @@ pytest_310:
 
 black:
   stage: test
-  script: black --check gitlabtree tests
+  script: poetry run black --check gitlabtree tests
 
 mypy:
   stage: test
-  script: mypy gitlabtree tests
+  script: poetry run mypy gitlabtree tests
