@@ -1,4 +1,12 @@
-from gitlabtree.models import Repository, Group
+from rich.panel import Panel
+from gitlabtree.models import (
+    Repository,
+    Group,
+    Info,
+    PermissionInfo,
+    PipelineInfo,
+    VisibilityInfo,
+)
 
 
 def test_recursive_models() -> None:
@@ -73,3 +81,34 @@ def test_group_rich_protocol() -> None:
 def test_repository_rich_protocol() -> None:
     repo = Repository(name="Test 123")
     assert repo.__rich__() == ":book: Test 123"
+
+
+def test_info_rich_protocol() -> None:
+    repo = Info(text="Test 123")
+    rich_rendered = repo.__rich__()
+    assert isinstance(rich_rendered, Panel)
+    assert rich_rendered.renderable == "Test 123"
+
+
+def test_permission_rich_protocol() -> None:
+    """
+    ToDo: Update/change this test
+    """
+    repo = PermissionInfo(text="Test 123")
+    assert repo.__rich__() == "Test 123"
+
+
+def test_pipeline_rich_protocol() -> None:
+    """
+    ToDo: Update/change this test
+    """
+    repo = PipelineInfo(text="Test 123")
+    assert repo.__rich__() == "Test 123"
+
+
+def test_vivibility_rich_protocol() -> None:
+    """
+    ToDo: Update/change this test
+    """
+    repo = VisibilityInfo(text="Test 123")
+    assert repo.__rich__() == "Test 123"
