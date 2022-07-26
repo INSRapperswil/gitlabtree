@@ -63,3 +63,13 @@ def test_recursive_models_from_dict() -> None:
     assert top.groups[0].groups[0].name == "third level"
     assert len(top.groups[0].groups[0].repositories) == 3
     assert top.groups[0].groups[0].repositories[2].name == "third level 3"
+
+
+def test_group_rich_protocol() -> None:
+    group = Group(name="Test 123", groups=[Group(name="second")])
+    assert group.__rich__() == ":open_file_folder: Test 123"
+
+
+def test_repository_rich_protocol() -> None:
+    repo = Repository(name="Test 123")
+    assert repo.__rich__() == ":book: Test 123"
