@@ -8,7 +8,8 @@ def test_error_msg() -> None:
         "http://test1": {"test1": [0, 1, 3]},
         "http://test2": [{"a": 1}, {"b": 2}],
     }
-    fd = FakeDriver(moked_data=moked_data)
+    fd = FakeDriver()
+    fd.moked_data = moked_data
     for url, data in moked_data.items():
         assert data == fd.get(url)
 
@@ -18,7 +19,8 @@ def test_fake_raise_driver() -> None:
         "http://test1": FileNotFoundError,
         "http://test2": ConnectionError,
     }
-    frd = FakeRaiseDriver(moked_data=moked_data)
+    frd = FakeRaiseDriver()
+    frd.moked_data = moked_data
     for url, exc in moked_data.items():
         with pytest.raises(exc):
             frd.get(url)
