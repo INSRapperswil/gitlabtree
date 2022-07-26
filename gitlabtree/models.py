@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 from pydantic import BaseModel
 
 
@@ -8,5 +8,5 @@ class Repository(BaseModel):
 
 class Group(BaseModel):
     name: str
-    groups: Optional[List["Group"]]
-    repositories: Optional[List[Repository]]
+    groups: List["Group"] = []
+    repositories: List[Repository] = []
