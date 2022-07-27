@@ -1,3 +1,7 @@
+"""
+GitLabTree CLI tool
+"""
+
 import typer
 
 from rich.console import Console
@@ -40,6 +44,7 @@ def permissions(
 
     Starting at a group level treveling down to the repositories
     """
+    type(ctx.obj)
     error_console.print(error("Not implemented yet. But comming soon :soon: :smirk:"))
     raise typer.Exit(1)
 
@@ -53,6 +58,7 @@ def pipeline(
 
     Starting at a group level treveling down to the repositories
     """
+    type(ctx.obj)
     error_console.print(error("Not implemented yet. But comming soon :soon: :smirk:"))
     raise typer.Exit(1)
 
@@ -64,7 +70,9 @@ def visibility(
     """
     Show the visibility of for each project and group
 
-    Starting at a group level treveling down to the repositories and showing the visibility (public, intern, private)
+    Starting at a group level treveling down to the repositories and
+    showing the visibility (public, intern, private)
     """
+    type(ctx.obj)
     error_console.print(error("Not implemented yet. But comming soon :soon: :smirk:"))
     raise typer.Exit(1)

@@ -43,3 +43,8 @@ warn_unused_configs = true
 warn_unused_ignores = true
 warn_return_any = true
 warn_redundant_casts = true
+
+[tool.pylint.'MESSAGES CONTROL']
+max-line-length = 88
+disable = "R0903, W0511"
+extension-pkg-whitelist = "pydantic"
