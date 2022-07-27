@@ -32,6 +32,7 @@ pytest_39:
 pytest_310:
   <<: *pytest
   image: python:3.10
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
 
 black:
   stage: test

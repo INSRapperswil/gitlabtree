@@ -3,6 +3,7 @@ import typer
 from rich.console import Console
 
 from .rich_helper import error
+from .gitlab_helper import GitLabHelper
 
 console = Console()
 error_console = Console()
@@ -11,14 +12,29 @@ app = typer.Typer()
 
 
 @app.callback()
-def callback() -> None:
+def callback(
+    ctx: typer.Context,
+    api_url: str = typer.Option(
+        "https://gitlab.ost.ch/api/v4", help="GitLab API URL", envvar="GITLAB_API"
+    ),
+    token: str = typer.Option(
+        ...,
+        help="GitLab API token",
+        envvar="GITLAB_TOKEN",
+        prompt="GitLab Token",
+        hide_input=True,
+    ),
+) -> None:
     """
     GitLab🌲 to get a quick GitLab 🌲-view in your console
     """
+    ctx.obj = GitLabHelper(api_url=api_url, token=token)
 
 
 @app.command()
-def permissions() -> None:
+def permissions(
+    ctx: typer.Context,
+) -> None:
     """
     Show granted permissions
 
@@ -29,7 +45,9 @@ def permissions() -> None:
 
 
 @app.command()
-def pipeline() -> None:
+def pipeline(
+    ctx: typer.Context,
+) -> None:
     """
     Show the status of the last pipeline run for each project
 
@@ -40,7 +58,9 @@ def pipeline() -> None:
 
 
 @app.command()
-def visibility() -> None:
+def visibility(
+    ctx: typer.Context,
+) -> None:
     """
     Show the visibility of for each project and group
 

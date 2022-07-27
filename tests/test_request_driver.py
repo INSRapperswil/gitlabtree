@@ -1,6 +1,7 @@
 from typing import Any, List, Dict
-from _pytest.monkeypatch import MonkeyPatch
+from pytest import MonkeyPatch
 from itertools import cycle
+import pytest
 from requests.sessions import Session
 from gitlabtree.gitlab_helper import RequestDriver
 
@@ -59,3 +60,20 @@ def test_request_driver_get_paging(monkeypatch: MonkeyPatch) -> None:
 
     result = rd.get("http://localhost")
     assert result == [{"User": "A"}, {"User": "B"}]
+
+
+def test_request_driver_wrong_paging_types(monkeypatch: MonkeyPatch) -> None:
+    CYCLE = cycle(
+        [MockResponse({"User": "A"}, links=True), MockResponse([{"User": "B"}])]
+    )
+
+    def mock_get_list(*args: List[Any], **kwargs: Dict[str, Any]) -> MockResponse:
+        return next(CYCLE)
+
+    rd = RequestDriver("asdf1234", verify=False)
+    # Disable all requests just in case
+    monkeypatch.delattr("requests.sessions.Session.request")
+    monkeypatch.setattr(Session, "get", mock_get_list)
+
+    with pytest.raises(Exception):
+        result = rd.get("http://localhost")
