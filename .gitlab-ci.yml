@@ -32,7 +32,7 @@ pytest_39:
 pytest_310:
   <<: *pytest
   image: python:3.10
-  coverage: "/TOTAL\s+\d+\s+\d+\s+\d+(\.\d+)?%/"
+  coverage: '/TOTAL\s+\d+\s+\d+\s+\d+(\.\d+)?%/'
 
 black:
   stage: test
