@@ -1,5 +1,5 @@
 from typing import Any, List, Dict
-from _pytest.monkeypatch import MonkeyPatch
+from pytest import MonkeyPatch
 from itertools import cycle
 import pytest
 from requests.sessions import Session
