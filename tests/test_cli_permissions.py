@@ -1,5 +1,6 @@
 from typer.testing import CliRunner
 
+from .fixture_cli import env_gitlab_token
 from gitlabtree.main import app
 
 runner = CliRunner()
