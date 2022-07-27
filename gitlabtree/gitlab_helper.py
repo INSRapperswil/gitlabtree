@@ -1,8 +1,15 @@
+"""
+GitLab Helper and RequestDriver to interact with the GitLab API
+"""
 from typing import Type, Any
 import requests
 
 
 class RequestDriver:
+    """
+    Driver to use requests Session
+    """
+
     def __init__(self, token: str, verify: bool = True) -> None:
         headers = {
             "Authorization": f"Bearer {token}",
@@ -16,6 +23,17 @@ class RequestDriver:
         self.session = session
 
     def get(self, url: str) -> Any:
+        """Get JSON data from the API. Pagination support
+
+        Args:
+            url (str): API URL
+
+        Raises:
+            Exception: Pagination not possible if API does not return a list
+
+        Returns:
+            Any: Data from the API
+        """
         response = self.session.get(url)
         response.raise_for_status()
         data = response.json()
@@ -31,6 +49,10 @@ class RequestDriver:
 
 
 class GitLabHelper:
+    """
+    GitLabHelper to interact with GitLab and making writing tests easy 🍻
+    """
+
     def __init__(
         self, api_url: str, token: str, request_cls: Type[RequestDriver] = RequestDriver
     ) -> None:
@@ -42,4 +64,12 @@ class GitLabHelper:
         return f"{self.api_url}/{endpoint}"
 
     def get(self, endpoint: str) -> Any:
+        """Retriving API data
+
+        Args:
+            endpoint (str): Requested API endpoint. Example 'groups/1234'
+
+        Returns:
+            Any: Data from the API
+        """
         return self.gitlab.get(self._get_url(endpoint))

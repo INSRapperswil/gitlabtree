@@ -1,3 +1,6 @@
+"""
+Pydantic models with __rich__ for easy printing with rich
+"""
 from typing import List
 from pydantic import BaseModel
 from rich.panel import Panel
@@ -5,6 +8,10 @@ from rich.console import RenderableType
 
 
 class Info(BaseModel):
+    """
+    Object to link to repositories or groups
+    """
+
     text: str
 
     def __rich__(self) -> RenderableType:
@@ -12,6 +19,10 @@ class Info(BaseModel):
 
 
 class Repository(BaseModel):
+    """
+    Object representing a repository
+    """
+
     name: str
     info: List[Info] = []
 
@@ -20,6 +31,10 @@ class Repository(BaseModel):
 
 
 class Group(BaseModel):
+    """
+    Object representing a group
+    """
+
     name: str
     groups: List["Group"] = []
     repositories: List[Repository] = []
@@ -30,6 +45,10 @@ class Group(BaseModel):
 
 
 class PermissionInfo(Info):
+    """
+    Derived info object with specific rich rendering
+    """
+
     text: str
 
     def __rich__(self) -> RenderableType:
@@ -37,6 +56,10 @@ class PermissionInfo(Info):
 
 
 class PipelineInfo(Info):
+    """
+    Derived info object with specific rich rendering
+    """
+
     text: str
 
     def __rich__(self) -> RenderableType:
@@ -44,6 +67,10 @@ class PipelineInfo(Info):
 
 
 class VisibilityInfo(Info):
+    """
+    Derived info object with specific rich rendering
+    """
+
     text: str
 
     def __rich__(self) -> RenderableType:
