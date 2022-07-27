@@ -21,8 +21,8 @@ class RequestDriver:
         data = response.json()
 
         # Pagination support
-        while next := response.links.get("next", None):
-            response = self.session.get(next["url"])
+        while next_page := response.links.get("next", None):
+            response = self.session.get(next_page["url"])
             response.raise_for_status()
             if not isinstance(data, list):
                 raise Exception("Pagination is only support on lists")
