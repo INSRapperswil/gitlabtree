@@ -6,7 +6,7 @@ import typer
 
 from rich.console import Console
 
-from .rich_helper import error
+from .rich_helper import error, render_tree
 from .gitlab_helper import GitLabHelper
 from .visibility_helper import VisibilityHelper
 
@@ -46,7 +46,6 @@ def permissions(
     Starting at a group level traveling down to the repositories
     """
     type(ctx.obj)
-    breakpoint()
     error_console.print(error("Not implemented yet. But coming soon :soon: :smirk:"))
     raise typer.Exit(1)
 
@@ -76,7 +75,9 @@ def visibility(
     showing the visibility (public, intern, private)
     """
     type(ctx.obj)
-    vh = VisibilityHelper(gitlab = ctx.obj)
-    vh.get_projects()
-    error_console.print(error("Not implemented yet. But coming soon :soon: :smirk:"))
+    visibilityhelper = VisibilityHelper(gitlab=ctx.obj)
+    visibilityhelper.get_projects("ins-stud")
+    groups = visibilityhelper.get_groups("ins-stud")
+    console.print(render_tree(groups))
+
     raise typer.Exit(1)
