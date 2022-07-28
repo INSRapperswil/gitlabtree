@@ -41,3 +41,7 @@ black:
 mypy:
   stage: test
   script: poetry run mypy gitlabtree tests
+
+pylint:
+  stage: test
+  script: poetry run pylint gitlabtree --fail-under 5
