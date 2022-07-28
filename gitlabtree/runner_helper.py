@@ -1,4 +1,4 @@
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Type
 
 from .gitlab_helper import GitLabHelper
 from .models import Group, Info, RunnerInfo
