@@ -13,10 +13,10 @@ def error(error_msg: str, title: str = "ERROR") -> Panel:
 
     Args:
         error (str): Error message
-        title (str, optional): Panel titel. Defaults to "ERROR".
+        title (str, optional): Panel title. Defaults to "ERROR".
 
     Returns:
-        Panel: Rich Panal with error message for printing
+        Panel: Rich Panel with error message for printing
     """
     return Panel(error_msg, style="red", title=title, title_align="left")
 

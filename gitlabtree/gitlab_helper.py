@@ -64,7 +64,7 @@ class GitLabHelper:
         return f"{self.api_url}/{endpoint}"
 
     def get(self, endpoint: str) -> Any:
-        """Retriving API data
+        """Retrieving API data
 
         Args:
             endpoint (str): Requested API endpoint. Example 'groups/1234'
