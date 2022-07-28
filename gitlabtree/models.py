@@ -2,7 +2,6 @@
 Pydantic models with __rich__ for easy printing with rich
 """
 from typing import List
-from click import style
 from pydantic import BaseModel
 from rich.panel import Panel
 from rich.console import RenderableType
