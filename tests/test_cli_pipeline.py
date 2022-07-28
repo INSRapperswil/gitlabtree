@@ -22,4 +22,4 @@ def test_wrong_command() -> None:
 def test_no_command() -> None:
     result = runner.invoke(app, ["pipeline"])
     assert result.exit_code == 1
-    assert "" in result.output
+    assert "Not implemented yet. But coming soon" in result.output

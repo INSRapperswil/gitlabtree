@@ -74,10 +74,9 @@ def visibility(
     Starting at a group level traveling down to the repositories and
     showing the visibility (public, intern, private)
     """
-    type(ctx.obj)
     visibilityhelper = VisibilityHelper(gitlab=ctx.obj)
     visibilityhelper.get_projects("ins-stud")
     groups = visibilityhelper.get_groups("ins-stud")
     console.print(render_tree(groups))
 
-    raise typer.Exit(1)
+    raise typer.Exit(0)
