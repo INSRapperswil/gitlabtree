@@ -2,6 +2,7 @@
 Pydantic models with __rich__ for easy printing with rich
 """
 from typing import List
+from click import style
 from pydantic import BaseModel
 from rich.panel import Panel
 from rich.console import RenderableType
@@ -75,3 +76,20 @@ class VisibilityInfo(Info):
 
     def __rich__(self) -> RenderableType:
         return f"{self.text}"  # ToDo: Implement
+
+
+class RunnerInfo(Info):
+    """
+    Derived info object with specific rich rendering
+    """
+
+    text: str
+    active: bool
+    is_shared: bool
+
+    def __rich__(self) -> RenderableType:
+        style = "red" if self.is_shared else "yellow"
+        title = "active" if self.active else "passive"
+        return Panel(
+            f"{self.text}", width=40, style=style, title=title, title_align="left"
+        )
