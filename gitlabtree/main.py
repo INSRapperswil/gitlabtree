@@ -8,6 +8,7 @@ from rich.console import Console
 
 from .rich_helper import error
 from .gitlab_helper import GitLabHelper
+from .visibility_helper import VisibilityHelper
 
 console = Console()
 error_console = Console()
@@ -42,10 +43,11 @@ def permissions(
     """
     Show granted permissions
 
-    Starting at a group level treveling down to the repositories
+    Starting at a group level traveling down to the repositories
     """
     type(ctx.obj)
-    error_console.print(error("Not implemented yet. But comming soon :soon: :smirk:"))
+    breakpoint()
+    error_console.print(error("Not implemented yet. But coming soon :soon: :smirk:"))
     raise typer.Exit(1)
 
 
@@ -56,10 +58,10 @@ def pipeline(
     """
     Show the status of the last pipeline run for each project
 
-    Starting at a group level treveling down to the repositories
+    Starting at a group level traveling down to the repositories
     """
     type(ctx.obj)
-    error_console.print(error("Not implemented yet. But comming soon :soon: :smirk:"))
+    error_console.print(error("Not implemented yet. But coming soon :soon: :smirk:"))
     raise typer.Exit(1)
 
 
@@ -70,9 +72,11 @@ def visibility(
     """
     Show the visibility of for each project and group
 
-    Starting at a group level treveling down to the repositories and
+    Starting at a group level traveling down to the repositories and
     showing the visibility (public, intern, private)
     """
     type(ctx.obj)
-    error_console.print(error("Not implemented yet. But comming soon :soon: :smirk:"))
+    vh = VisibilityHelper(gitlab = ctx.obj)
+    vh.get_projects()
+    error_console.print(error("Not implemented yet. But coming soon :soon: :smirk:"))
     raise typer.Exit(1)
