@@ -14,6 +14,7 @@ default:
 
 stages:
   - test
+  - release
 
 pytest_38: &pytest
   stage: test
@@ -45,3 +46,13 @@ mypy:
 pylint:
   stage: test
   script: poetry run pylint gitlabtree --fail-under 5
+
+build:
+  stage: release
+  script:
+    - poetry config repositories.gitlab ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi
+    # - poetry config pypi-token.pypi my-token
+    - poetry config http-basic.pypi gitlab-ci-token ${CI_JOB_TOKEN}
+    - poetry publish --build --repository gitlab
+  rules:
+    - if: $CI_COMMIT_TAG
