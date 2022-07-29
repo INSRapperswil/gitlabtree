@@ -10,7 +10,7 @@ def test_help() -> None:
     result = runner.invoke(app, ["visibility", "--help"])
     assert result.exit_code == 0
     assert "visibility" in result.stdout
-    assert "Show the visibility of for each project and group" in result.stdout
+    assert "Show the visibility of each project and group" in result.stdout
     assert "public, intern, private" in result.stdout
 
 
