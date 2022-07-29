@@ -9,7 +9,7 @@ from rich.console import Console
 
 from .rich_helper import error, render_tree
 from .gitlab_helper import GitLabHelper
-from .visibility_helper import get_tree_with_visibility
+from .visibility import get_tree_with_visibility
 from .runner import get_tree_with_runner
 from .pipeline import get_tree_with_pipeline
 from .permissions import get_tree_with_permissions
