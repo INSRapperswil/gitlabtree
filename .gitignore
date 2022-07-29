@@ -6,3 +6,5 @@ __pycache__
 pytest.xml
 cov.xml
 .env
+.vscode
+dist/

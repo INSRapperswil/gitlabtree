@@ -21,9 +21,7 @@ app = typer.Typer()
 @app.callback()
 def callback(
     ctx: typer.Context,
-    api_url: str = typer.Option(
-        "https://gitlab.ost.ch/api/v4", help="GitLab API URL", envvar="GITLAB_API"
-    ),
+    api_url: str = typer.Option(..., help="GitLab API URL", envvar="GITLAB_API"),
     token: str = typer.Option(
         ...,
         help="GitLab API token",
