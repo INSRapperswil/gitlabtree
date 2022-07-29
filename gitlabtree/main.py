@@ -50,8 +50,12 @@ def permissions(
     Starting at a group level and traveling down to the repositories
     """
     try:
-        tree = get_tree_with_permissions(gitlab=ctx.obj, start=quote(start, safe=""))
-        console.print(render_tree(tree))
+        with console.status("Loading...", spinner="monkey"):
+            tree = get_tree_with_permissions(
+                gitlab=ctx.obj, start=quote(start, safe="")
+            )
+        with console.pager():
+            console.print(render_tree(tree))
         raise typer.Exit(0)
     except RequestException as exc:
         error_console.print(error(str(exc), "API Error"))
@@ -68,8 +72,10 @@ def pipeline(
     Starting at a group level and traveling down to the repositories
     """
     try:
-        tree = get_tree_with_pipeline(gitlab=ctx.obj, start=quote(start, safe=""))
-        console.print(render_tree(tree))
+        with console.status("Loading...", spinner="monkey"):
+            tree = get_tree_with_pipeline(gitlab=ctx.obj, start=quote(start, safe=""))
+        with console.pager():
+            console.print(render_tree(tree))
         raise typer.Exit(0)
     except RequestException as exc:
         error_console.print(error(str(exc), "API Error"))
@@ -87,8 +93,10 @@ def visibility(
     showing the visibility (public, intern, private)
     """
     try:
-        tree = get_tree_with_visibility(gitlab=ctx.obj, start=quote(start, safe=""))
-        console.print(render_tree(tree))
+        with console.status("Loading...", spinner="monkey"):
+            tree = get_tree_with_visibility(gitlab=ctx.obj, start=quote(start, safe=""))
+        with console.pager():
+            console.print(render_tree(tree))
         raise typer.Exit(0)
     except RequestException as exc:
         error_console.print(error(str(exc), "API Error"))
@@ -105,8 +113,10 @@ def runners(
     Starting at a group level and traveling down to the repositories
     """
     try:
-        tree = get_tree_with_runner(gitlab=ctx.obj, start=quote(start, safe=""))
-        console.print(render_tree(tree))
+        with console.status("Loading...", spinner="monkey"):
+            tree = get_tree_with_runner(gitlab=ctx.obj, start=quote(start, safe=""))
+        with console.pager():
+            console.print(render_tree(tree))
         raise typer.Exit(0)
     except RequestException as exc:
         error_console.print(error(str(exc), "API Error"))
