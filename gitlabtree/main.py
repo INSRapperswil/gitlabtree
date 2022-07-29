@@ -4,11 +4,13 @@ GitLabTree CLI tool
 
 import typer
 
+from urllib.parse import quote
 from rich.console import Console
 
 from .rich_helper import error, render_tree
 from .gitlab_helper import GitLabHelper
 from .visibility_helper import VisibilityHelper
+from .runner_helper import get_tree_with_runner
 
 console = Console()
 error_console = Console()
@@ -79,4 +81,18 @@ def visibility(
     groups = visibilityhelper.get_groups("ins-stud")
     console.print(render_tree(groups))
 
+    raise typer.Exit(0)
+
+
+@app.command()
+def runners(
+    ctx: typer.Context, start: str = typer.Argument(..., help="Group to start the tree")
+) -> None:
+    """
+    Show the available runner
+
+    Starting at a group level traveling down to the repositories
+    """
+    tree = get_tree_with_runner(gitlab=ctx.obj, start=quote(start, safe=""))
+    console.print(render_tree(tree))
     raise typer.Exit(0)

@@ -6,6 +6,7 @@ from gitlabtree.models import (
     PermissionInfo,
     PipelineInfo,
     VisibilityInfo,
+    RunnerInfo,
 )
 
 
@@ -112,3 +113,12 @@ def test_vivibility_rich_protocol() -> None:
     """
     repo = VisibilityInfo(text="Test 123")
     assert repo.__rich__() == "Test 123"
+
+
+def test_runner_rich_protocol() -> None:
+    repo = RunnerInfo(text="myText", active=True, is_shared=False)
+    rich_rendered = repo.__rich__()
+    assert isinstance(rich_rendered, Panel)
+    assert rich_rendered.renderable == "myText"
+    assert rich_rendered.title == "active"
+    assert rich_rendered.style == "yellow"
