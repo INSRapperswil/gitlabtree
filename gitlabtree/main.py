@@ -4,6 +4,7 @@ GitLabTree CLI tool
 
 import typer
 
+from urllib.parse import quote
 from rich.console import Console
 
 from .rich_helper import error, render_tree
@@ -92,6 +93,6 @@ def runners(
 
     Starting at a group level traveling down to the repositories
     """
-    tree = get_tree_with_runner(gitlab=ctx.obj, start=start)
+    tree = get_tree_with_runner(gitlab=ctx.obj, start=quote(start, safe=""))
     console.print(render_tree(tree))
     raise typer.Exit(0)
