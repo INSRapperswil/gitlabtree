@@ -1,10 +1,18 @@
-from typing import Any, Dict, List, Tuple, Callable, Optional
+"""
+Tree Helper object to download the data and create the free
+The objects from gitlabtree.models will be used for the tree
+"""
+from typing import Any, Dict, List, Callable, Optional
 
-from gitlabtree.models import Group, Repository, Info
+from .models import Group, Repository, Info
 from .gitlab_helper import GitLabHelper
 
 
 class TreeHelper:
+    """
+    Tree helper object to download the data and build the tree
+    """
+
     def __init__(
         self,
         gitlab: GitLabHelper,
@@ -24,6 +32,14 @@ class TreeHelper:
         self._projects: List[Dict[str, Any]] = []
 
     def get_data(self, start: str) -> None:
+        """Download the base data. All groups and projects
+        groups/{start}
+        groups/{start}/descendant_group
+        groups/{start}/projects?include_subgroups=true
+
+        Args:
+            start (str): Name or ID of the starting group
+        """
         self._top = self.gitlab.get(f"groups/{start}")
         self._groups = self.gitlab.get(f"groups/{start}/descendant_groups")
         self._projects = self.gitlab.get(
@@ -33,6 +49,23 @@ class TreeHelper:
     def create_tree(
         self,
     ) -> Group:
+        """Actually building the tree
+        1. Creating the top Group object
+        2. Storing the top Group object in a dict so it can be found again by ID
+        3. Sorting all descendant groups by full_path so the parent is processed first
+        4. Looping over all descendant groups and creating the object,
+           storing in the dict, looking for the parent Group object with
+           the "parent_id" to link the created object to the parent Group.
+        5. If group_processing function is provided, the Info objects can be created
+           with the provided function and be added to the new object
+        6. Looping over all projects and creating the object and looking for the parent
+           object with the 'parent_id' to link the created object to the parent Group.
+        7. If group_processing function is provided, the Info objects can be created
+           with the provided function and be added to the new object
+
+        Returns:
+            Group: Group object with all subgroups and repositories linked
+        """
 
         # Temporary dict to map group ID to group object
         _tmp_groups: Dict[int, Group] = {}
@@ -66,5 +99,13 @@ class TreeHelper:
         self,
         start: str,
     ) -> Group:
+        """Downloading the data and building the tree
+
+        Args:
+            start (str): Name or ID of the starting group
+
+        Returns:
+            Group: Group object with all subgroups and repositories linked
+        """
         self.get_data(start)
         return self.create_tree()
