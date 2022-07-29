@@ -4,53 +4,41 @@ Visibility Helper to get visibility information from GitLabAPI for projects and 
 from typing import Any, List, Dict
 
 from .gitlab_helper import GitLabHelper
-from .models import Group, Repository, VisibilityInfo
+from .tree_helper import TreeHelper
+from .models import Group, Info, VisibilityInfo
 
 
-class VisibilityHelper:
+def create_visibility_info(data: Dict[str, Any], gitlab: GitLabHelper) -> List[Info]:
+    """Function to pass onto the Tree helper to create the VisibilityInfo for each project
+
+    Args:
+        data (Dict[str, Any]): Project data from the API
+        gitlab (GitLabHelper): GitLab Helper (no API call needed)
+
+    Returns:
+        List[Info]: List of Visibility objects
     """
-    Visibility helper to get visibility for projects and groups
+    info: List[Info] = [
+        VisibilityInfo(
+            text=f"{data['visibility']}",
+        )
+    ]
+    return info
+
+
+def get_tree_with_visibility(gitlab: GitLabHelper, start: str) -> Group:
+    """Function to get the complete tree with the visibility status
+
+    Args:
+        gitlab (GitLabHelper): GitLab Helper for API calls
+        start (str): Name of the group to start building the tree
+
+    Returns:
+        Group: Group object with all subgroups and repositories linked
     """
-
-    def __init__(self, gitlab: GitLabHelper) -> None:
-        self.gitlab = gitlab
-        self.projects: List[Any] = []
-
-    def get_projects(self, group: str) -> None:
-        """
-        get all projects for group
-        """
-        self.projects = self.gitlab.get(
-            f"groups/{group}/projects?include_subgroups=true"
-        )
-
-    def get_groups(self, search_group: str) -> Group:
-        """
-        get all groups
-        """
-        groups: Dict[str, Any] = self.gitlab.get(f"groups/{search_group}")
-        subgroups: List[Dict[str, Any]] = self.gitlab.get(
-            f"groups/{search_group}/descendant_groups"
-        )
-
-        top = Group(name=groups["name"])
-        _id_groups = {groups["id"]: top}
-        for group in sorted(subgroups, key=_get_full_path):
-            group_obj = Group(
-                name=group["name"], info=[VisibilityInfo(text=group["visibility"])]
-            )
-            _id_groups[group["parent_id"]].groups.append(group_obj)
-            _id_groups[group["id"]] = group_obj
-
-        for project in self.projects:
-            project_obj = Repository(
-                name=project["name"], info=[VisibilityInfo(text=project["visibility"])]
-            )
-            parent = project["namespace"]["id"]
-            _id_groups[parent].repositories.append(project_obj)
-
-        return top
-
-
-def _get_full_path(i: Dict[str, Any]) -> str:
-    return str(i["full_path"])
+    tree_helper = TreeHelper(
+        gitlab,
+        group_processing=create_visibility_info,
+        project_processing=create_visibility_info,
+    )
+    return tree_helper.get_tree(start)

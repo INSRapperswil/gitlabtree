@@ -1,6 +1,6 @@
 from gitlabtree.models import RunnerInfo
 from gitlabtree.gitlab_helper import GitLabHelper
-from gitlabtree.runner_helper import create_runner_info, get_tree_with_runner
+from gitlabtree.runner import create_runner_info, get_tree_with_runner
 
 from .fixture_helper import *
 

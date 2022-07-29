@@ -13,13 +13,7 @@ def test_help() -> None:
     assert "last pipeline run" in result.stdout
 
 
-def test_wrong_command() -> None:
-    result = runner.invoke(app, ["pipeline", "nope"])
-    assert result.exit_code == 2
-    assert "Got unexpected extra argument (nope)" in result.output
-
-
 def test_no_command() -> None:
     result = runner.invoke(app, ["pipeline"])
-    assert result.exit_code == 1
-    assert "Not implemented yet. But coming soon" in result.output
+    assert result.exit_code == 2
+    assert "Missing argument 'START'" in result.output

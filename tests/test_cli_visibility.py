@@ -14,13 +14,7 @@ def test_help() -> None:
     assert "public, intern, private" in result.stdout
 
 
-def test_wrong_command() -> None:
-    result = runner.invoke(app, ["visibility", "nope"])
-    assert result.exit_code == 2
-    assert "Got unexpected extra argument (nope)" in result.output
-
-
 def test_no_command() -> None:
     result = runner.invoke(app, ["visibility"])
-    assert result.exit_code == 1
-    assert "" in result.output
+    assert result.exit_code == 2
+    assert "Missing argument 'START'" in result.output

@@ -95,7 +95,7 @@ def test_permission_rich_protocol() -> None:
     """
     ToDo: Update/change this test
     """
-    repo = PermissionInfo(text="Test 123")
+    repo = PermissionInfo(text="Test 123", user="test_123", url="http://a/")
     assert repo.__rich__() == "Test 123"
 
 
@@ -103,7 +103,7 @@ def test_pipeline_rich_protocol() -> None:
     """
     ToDo: Update/change this test
     """
-    repo = PipelineInfo(text="Test 123")
+    repo = PipelineInfo(text="Test 123", status="success", url="http://a/")
     assert repo.__rich__() == "Test 123"
 
 

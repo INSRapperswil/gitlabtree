@@ -50,6 +50,8 @@ class PermissionInfo(Info):
     """
 
     text: str
+    user: str
+    url: str
 
     def __rich__(self) -> RenderableType:
         return f"{self.text}"  # ToDo: Implement
@@ -61,6 +63,8 @@ class PipelineInfo(Info):
     """
 
     text: str
+    status: str
+    url: str
 
     def __rich__(self) -> RenderableType:
         return f"{self.text}"  # ToDo: Implement
