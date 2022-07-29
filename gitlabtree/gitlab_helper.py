@@ -29,7 +29,7 @@ class RequestDriver:
             url (str): API URL
 
         Raises:
-            Exception: Pagination not possible if API does not return a list
+            Exception: Pagination is not possible if API does not return a list
 
         Returns:
             Any: Data from the API
@@ -43,14 +43,14 @@ class RequestDriver:
             response = self.session.get(next_page["url"])
             response.raise_for_status()
             if not isinstance(data, list):
-                raise Exception("Pagination is only support on lists")
+                raise Exception("Pagination is only supported on lists")
             data.extend(response.json())
         return data
 
 
 class GitLabHelper:
     """
-    GitLabHelper to interact with GitLab and making writing tests easy 🍻
+    GitLabHelper to interact with GitLab and make writing tests easy 🍻
     """
 
     def __init__(
