@@ -6,7 +6,7 @@ GitLabTree is a CLI tool for retrieving information from a GitLab server. Mainly
 ## Install
 
 ```
-pip install ...
+pip install gitlabtree
 ```
 
 From source:
