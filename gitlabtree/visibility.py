@@ -5,7 +5,7 @@ from typing import Any, List, Dict
 
 from .gitlab_helper import GitLabHelper
 from .tree_helper import TreeHelper
-from .models import Group, Info, VisibilityInfo
+from .models import Group, Info
 
 
 def create_visibility_info(data: Dict[str, Any], gitlab: GitLabHelper) -> List[Info]:
@@ -19,7 +19,7 @@ def create_visibility_info(data: Dict[str, Any], gitlab: GitLabHelper) -> List[I
         List[Info]: List of Visibility objects
     """
     info: List[Info] = [
-        VisibilityInfo(
+        Info(
             text=f"{data['visibility']}",
         )
     ]

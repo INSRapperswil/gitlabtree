@@ -3,8 +3,10 @@ Helper functions for the runners cli subcommand
 """
 from typing import Dict, Any, List
 
+from rich.panel import Panel
+
 from .gitlab_helper import GitLabHelper
-from .models import Group, Info, PermissionInfo
+from .models import Group, Info
 from .tree_helper import TreeHelper
 
 
@@ -23,13 +25,8 @@ def create_permission_info(data: Dict[str, Any], gitlab: GitLabHelper) -> List[I
     permission_data = gitlab.get(f"{kind}/{data['id']}/members")
 
     for member in permission_data:
-        info.append(
-            PermissionInfo(
-                text=member["name"],
-                user=member["username"],
-                url=member["web_url"],
-            )
-        )
+        panel = Panel(f'{member["username"]} {member["web_url"]}', title=member["name"])
+        info.append(Info(text=member["name"], renderable=panel))
     return info
 
 

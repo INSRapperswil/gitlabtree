@@ -2,9 +2,10 @@
 Helper functions for the runners cli subcommand
 """
 from typing import Dict, Any, List
+from rich.panel import Panel
 
 from .gitlab_helper import GitLabHelper
-from .models import Group, Info, RunnerInfo
+from .models import Group, Info
 from .tree_helper import TreeHelper
 
 
@@ -21,12 +22,17 @@ def create_runner_info(data: Dict[str, Any], gitlab: GitLabHelper) -> List[Info]
     runner_data = gitlab.get(f"projects/{data['id']}/runners")
     info: List[Info] = []
     for runner in runner_data:
+        style = "red" if runner["active"] else "yellow"
+        title = "active" if runner["is_shared"] else "passive"
+        text = f"{runner['description']} - {runner['active']}"
+        panel = Panel(text, width=40, style=style, title=title, title_align="left")
         info.append(
-            RunnerInfo(
-                text=runner["description"],
-                active=runner["active"],
-                is_shared=runner["is_shared"],
-            )
+            # RunnerInfo(
+            #     text=runner["description"],
+            #     active=runner["active"],
+            #     is_shared=runner["is_shared"],
+            # )
+            Info(text=text, renderable=panel)
         )
     return info
 

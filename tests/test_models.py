@@ -3,10 +3,6 @@ from gitlabtree.models import (
     Repository,
     Group,
     Info,
-    PermissionInfo,
-    PipelineInfo,
-    VisibilityInfo,
-    RunnerInfo,
 )
 
 
@@ -89,36 +85,3 @@ def test_info_rich_protocol() -> None:
     rich_rendered = repo.__rich__()
     assert isinstance(rich_rendered, Panel)
     assert rich_rendered.renderable == "Test 123"
-
-
-def test_permission_rich_protocol() -> None:
-    """
-    ToDo: Update/change this test
-    """
-    repo = PermissionInfo(text="Test 123", user="test_123", url="http://a/")
-    assert repo.__rich__() == "Test 123"
-
-
-def test_pipeline_rich_protocol() -> None:
-    """
-    ToDo: Update/change this test
-    """
-    repo = PipelineInfo(text="Test 123", status="success", url="http://a/")
-    assert repo.__rich__() == "Test 123"
-
-
-def test_vivibility_rich_protocol() -> None:
-    """
-    ToDo: Update/change this test
-    """
-    repo = VisibilityInfo(text="Test 123")
-    assert repo.__rich__() == "Test 123"
-
-
-def test_runner_rich_protocol() -> None:
-    repo = RunnerInfo(text="myText", active=True, is_shared=False)
-    rich_rendered = repo.__rich__()
-    assert isinstance(rich_rendered, Panel)
-    assert rich_rendered.renderable == "myText"
-    assert rich_rendered.title == "active"
-    assert rich_rendered.style == "yellow"

@@ -149,13 +149,23 @@ def test_tree_helper_create_tree_project_processing(
                         "groups": [],
                         "info": [],
                         "name": "cat",
-                        "repositories": [{"info": [{"text": "demo"}], "name": "devon"}],
+                        "repositories": [
+                            {
+                                "info": [{"text": "demo"}],
+                                "name": "devon",
+                            }
+                        ],
                     },
                     {
                         "groups": [],
                         "info": [],
                         "name": "dog",
-                        "repositories": [{"info": [{"text": "demo"}], "name": "leo"}],
+                        "repositories": [
+                            {
+                                "info": [{"text": "demo"}],
+                                "name": "leo",
+                            }
+                        ],
                     },
                 ],
                 "info": [],

@@ -4,7 +4,7 @@ Helper functions for the pipeline cli subcommand
 from typing import Dict, Any, List
 
 from .gitlab_helper import GitLabHelper
-from .models import Group, Info, PipelineInfo
+from .models import Group, Info
 from .tree_helper import TreeHelper
 
 
@@ -26,10 +26,13 @@ def create_pipeline_info(data: Dict[str, Any], gitlab: GitLabHelper) -> List[Inf
     if pipeline_data:
         pipeline = pipeline_data[0]
         info.append(
-            PipelineInfo(
-                text=f"{pipeline['ref']} {pipeline['status']} {pipeline['updated_at']}",
-                status=pipeline["status"],
-                url=pipeline["web_url"],
+            # PipelineInfo(
+            #     text=f"{pipeline['ref']} {pipeline['status']} {pipeline['updated_at']}",
+            #     status=pipeline["status"],
+            #     url=pipeline["web_url"],
+            # )
+            Info(
+                text=f"{pipeline['ref']} {pipeline['status']} {pipeline['updated_at']}"
             )
         )
     return info
