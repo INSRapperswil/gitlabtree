@@ -1,3 +1,4 @@
+import sys
 import subprocess
 import pytest
 import typer
@@ -35,7 +36,7 @@ def test_no_command() -> None:
 
 def test_run_python_module() -> None:
     result = subprocess.run(
-        ["python", "-m", "gitlabtree", "--help"], capture_output=True, text=True
+        [sys.executable, "-m", "gitlabtree", "--help"], capture_output=True, text=True
     )
     assert result.returncode == 0
     assert "permissions" in result.stdout
