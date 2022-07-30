@@ -39,9 +39,6 @@ def test_run_python_module() -> None:
         [sys.executable, "-m", "gitlabtree", "--help"], capture_output=True, text=True
     )
     assert result.returncode == 0
-    assert "permissions" in result.stdout
-    assert "pipeline" in result.stdout
-    assert "visibility" in result.stdout
 
 
 def test_get_tree(gitlab_helper: GitLabHelper) -> None:
