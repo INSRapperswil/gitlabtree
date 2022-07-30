@@ -7,14 +7,13 @@ runner = CliRunner()
 
 
 def test_help() -> None:
-    result = runner.invoke(app, ["visibility", "--help"])
+    result = runner.invoke(app, ["runners", "--help"])
     assert result.exit_code == 0
-    assert "visibility" in result.stdout
-    assert "Show the visibility of each project and group" in result.stdout
-    assert "public, intern, private" in result.stdout
+    assert "runners" in result.stdout
+    assert "Show the available runner" in result.stdout
 
 
 def test_no_command() -> None:
-    result = runner.invoke(app, ["visibility"])
+    result = runner.invoke(app, ["runners"])
     assert result.exit_code == 2
     assert "Missing argument 'START'" in result.output

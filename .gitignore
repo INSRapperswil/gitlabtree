@@ -1,6 +1,10 @@
 .mypy_cache
 .pytest_cache
 .coverage
+.venv
 __pycache__
 pytest.xml
 cov.xml
+.env
+.vscode
+dist/
