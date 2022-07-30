@@ -1,11 +1,27 @@
 """
 Helper functions using rich
 """
+from typing import Optional
 from rich.panel import Panel
 from rich.tree import Tree
 from rich.console import Group as RichGroup
 
 from .models import Group
+
+
+def info_panel(
+    msg: str, title: str, style: str = "blue", width: Optional[int] = 30
+) -> Panel:
+    """Nice looking default panel
+
+    Args:
+        error (str): Error message
+        title (str, optional): Panel title.
+
+    Returns:
+        Panel: Rich Panel with message for printing
+    """
+    return Panel(msg, title=title, title_align="left", style=style, width=width)
 
 
 def error(error_msg: str, title: str = "ERROR") -> Panel:
@@ -18,7 +34,7 @@ def error(error_msg: str, title: str = "ERROR") -> Panel:
     Returns:
         Panel: Rich Panel with error message for printing
     """
-    return Panel(error_msg, style="red", title=title, title_align="left")
+    return info_panel(error_msg, title, "red", width=None)
 
 
 def render_tree(root: Group, guide_style: str = "uu green") -> Tree:

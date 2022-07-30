@@ -6,6 +6,7 @@ from typing import Dict, Any, List
 from .gitlab_helper import GitLabHelper
 from .models import Group, Info
 from .tree_helper import TreeHelper
+from .rich_helper import info_panel
 
 
 def create_pipeline_info(data: Dict[str, Any], gitlab: GitLabHelper) -> List[Info]:
@@ -18,21 +19,22 @@ def create_pipeline_info(data: Dict[str, Any], gitlab: GitLabHelper) -> List[Inf
     Returns:
         List[Info]: List of Pipeline objects
     """
-    # https://gitlab.ost.ch/api/v4/projects/4662/pipelines?ref=develop&order_by=updated_at&per_page=1
     pipeline_data = gitlab.get(
         f"projects/{data['id']}/pipelines?ref={data['default_branch']}&order_by=updated_at&per_page=1"
     )
     info: List[Info] = []
     if pipeline_data:
         pipeline = pipeline_data[0]
+        panel = info_panel(
+            f"[link={pipeline['web_url']}]{pipeline['ref']} {pipeline['status']} {pipeline['updated_at']}[/link]",
+            title=pipeline["ref"],
+            style="green" if pipeline["status"] else "red",
+            width=50,
+        )
         info.append(
-            # PipelineInfo(
-            #     text=f"{pipeline['ref']} {pipeline['status']} {pipeline['updated_at']}",
-            #     status=pipeline["status"],
-            #     url=pipeline["web_url"],
-            # )
             Info(
-                text=f"{pipeline['ref']} {pipeline['status']} {pipeline['updated_at']}"
+                text=f"{pipeline['ref']} {pipeline['status']} {pipeline['updated_at']}",
+                renderable=panel,
             )
         )
     return info
