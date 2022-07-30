@@ -1,6 +1,6 @@
 PROJECT=gitlabtree
 CODE_DIRS=${PROJECT} tests
-IMG_URL=https://github.com/INSRapperswil/gitlabtree/blob/main/doc/imgs/
+IMG_URL=https://raw.githubusercontent.com/INSRapperswil/gitlabtree/main/doc/imgs/
 
 # Run pytest
 .PHONY: pytest
