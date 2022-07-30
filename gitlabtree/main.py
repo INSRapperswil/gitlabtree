@@ -2,12 +2,10 @@
 GitLabTree CLI tool
 """
 
-from collections import namedtuple
 from typing import Callable, NamedTuple
-import typer
-
 from urllib.parse import quote
 
+import typer
 from requests.exceptions import RequestException
 from rich.console import Console
 
@@ -26,6 +24,10 @@ app = typer.Typer()
 
 
 class Config(NamedTuple):
+    """
+    Settings to store as typer context obj
+    """
+
     gitlab: GitLabHelper
     pager: bool
 

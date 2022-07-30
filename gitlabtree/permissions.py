@@ -8,7 +8,6 @@ from rich.table import Table
 from .gitlab_helper import GitLabHelper
 from .models import Group, Info
 from .tree_helper import TreeHelper
-from .rich_helper import info_panel
 
 
 def create_permission_info(data: Dict[str, Any], gitlab: GitLabHelper) -> List[Info]:
