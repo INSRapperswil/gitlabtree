@@ -2,7 +2,8 @@
 GitLabTree CLI tool
 """
 
-from typing import Callable
+from collections import namedtuple
+from typing import Callable, NamedTuple
 import typer
 
 from urllib.parse import quote
@@ -24,15 +25,23 @@ error_console = Console()
 app = typer.Typer()
 
 
+class Config(NamedTuple):
+    gitlab: GitLabHelper
+    pager: bool
+
+
 def _get_tree(
     start: str,
-    gitlab: GitLabHelper,
+    config: Config,
     get_tree_function: Callable[[GitLabHelper, str], Group],
 ) -> None:
     try:
         with console.status("Loading...", spinner="monkey"):
-            tree = get_tree_function(gitlab, quote(start, safe=""))
-        with console.pager():
+            tree = get_tree_function(config.gitlab, quote(start, safe=""))
+        if config.pager:
+            with console.pager():
+                console.print(render_tree(tree))
+        else:
             console.print(render_tree(tree))
         raise typer.Exit(0)
     except RequestException as exc:
@@ -51,11 +60,12 @@ def callback(
         prompt="GitLab Token",
         hide_input=True,
     ),
+    pager: bool = typer.Option(False, help="Using a pager for the output"),
 ) -> None:
     """
     GitLab🌲 to get a quick GitLab 🌲-view in your console
     """
-    ctx.obj = GitLabHelper(api_url=api_url, token=token)
+    ctx.obj = Config(gitlab=GitLabHelper(api_url=api_url, token=token), pager=pager)
 
 
 @app.command()
@@ -67,7 +77,7 @@ def permissions(
 
     Starting at a group level and traveling down to the repositories
     """
-    _get_tree(start=start, gitlab=ctx.obj, get_tree_function=get_tree_with_permissions)
+    _get_tree(start=start, config=ctx.obj, get_tree_function=get_tree_with_permissions)
 
 
 @app.command()
@@ -79,7 +89,7 @@ def pipeline(
 
     Starting at a group level and traveling down to the repositories
     """
-    _get_tree(start=start, gitlab=ctx.obj, get_tree_function=get_tree_with_pipeline)
+    _get_tree(start=start, config=ctx.obj, get_tree_function=get_tree_with_pipeline)
 
 
 @app.command()
@@ -92,7 +102,7 @@ def visibility(
     Starting at a group level traveling down to the repositories and
     showing the visibility (public, intern, private)
     """
-    _get_tree(start=start, gitlab=ctx.obj, get_tree_function=get_tree_with_visibility)
+    _get_tree(start=start, config=ctx.obj, get_tree_function=get_tree_with_visibility)
 
 
 @app.command()
@@ -104,4 +114,4 @@ def runners(
 
     Starting at a group level and traveling down to the repositories
     """
-    _get_tree(start=start, gitlab=ctx.obj, get_tree_function=get_tree_with_runner)
+    _get_tree(start=start, config=ctx.obj, get_tree_function=get_tree_with_runner)
