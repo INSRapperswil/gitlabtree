@@ -81,7 +81,12 @@ def test_repository_rich_protocol() -> None:
 
 
 def test_info_rich_protocol() -> None:
-    repo = Info(text="Test 123")
-    rich_rendered = repo.__rich__()
+    info = Info(text="Test 123")
+    rich_rendered = info.__rich__()
     assert isinstance(rich_rendered, Panel)
     assert rich_rendered.renderable == "Test 123"
+    assert str(info) == "Test 123"
+
+    custom_panel = Panel("test456")
+    info2 = Info(text="test456", renderable=custom_panel)
+    assert info2.renderable == custom_panel

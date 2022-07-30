@@ -10,7 +10,10 @@ from .models import Group
 
 
 def info_panel(
-    msg: str, title: str, style: str = "blue", width: Optional[int] = 30
+    msg: str,
+    title: Optional[str] = None,
+    style: str = "blue",
+    width: Optional[int] = 30,
 ) -> Panel:
     """Nice looking default panel
 
@@ -19,7 +22,7 @@ def info_panel(
         title (str, optional): Panel title.
 
     Returns:
-        Panel: Rich Panel with message for printing
+        Panel: Rich Panel with a message for printing
     """
     return Panel(msg, title=title, title_align="left", style=style, width=width)
 

@@ -1,3 +1,5 @@
+from rich.panel import Panel
+
 from gitlabtree.models import Info
 from gitlabtree.gitlab_helper import GitLabHelper
 from gitlabtree.runner import create_runner_info, get_tree_with_runner
@@ -17,6 +19,10 @@ def test_create_runner_info(
     assert len(info) == 1
     runner1 = info[0]
     assert runner1.text == f"runner1 - True"
+    assert isinstance(runner1.renderable, Panel)
+    assert runner1.renderable.renderable == f"runner1 - True"
+    assert runner1.renderable.title == "shared"
+    assert runner1.renderable.style == "red"
 
     data2 = moked_data_runners[
         "https://a/groups/start/projects?include_subgroups=true"
@@ -26,6 +32,10 @@ def test_create_runner_info(
     assert len(info2) == 2
     runner2 = info2[1]
     assert runner2.text == "runner2 - False"
+    assert isinstance(runner2.renderable, Panel)
+    assert runner2.renderable.renderable == f"runner2 - False"
+    assert runner2.renderable.title == "group"
+    assert runner2.renderable.style == "yellow"
 
 
 def test_get_tree_with_runner(

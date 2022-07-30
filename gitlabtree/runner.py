@@ -23,7 +23,7 @@ def create_runner_info(data: Dict[str, Any], gitlab: GitLabHelper) -> List[Info]
     info: List[Info] = []
     for runner in runner_data:
         style = "red" if runner["active"] else "yellow"
-        title = "active" if runner["is_shared"] else "passive"
+        title = "shared" if runner["is_shared"] else "group"
         text = f"{runner['description']} - {runner['active']}"
         panel = Panel(text, width=40, style=style, title=title, title_align="left")
 

@@ -28,7 +28,7 @@ def create_pipeline_info(data: Dict[str, Any], gitlab: GitLabHelper) -> List[Inf
         panel = info_panel(
             f"[link={pipeline['web_url']}]{pipeline['ref']} {pipeline['status']} {pipeline['updated_at']}[/link]",
             title=pipeline["ref"],
-            style="green" if pipeline["status"] else "red",
+            style="green" if pipeline["status"] == "success" else "red",
             width=50,
         )
         info.append(
