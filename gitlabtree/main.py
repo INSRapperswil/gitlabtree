@@ -2,6 +2,7 @@
 GitLabTree CLI tool
 """
 
+from typing import Callable
 import typer
 
 from urllib.parse import quote
@@ -9,8 +10,9 @@ from urllib.parse import quote
 from requests.exceptions import RequestException
 from rich.console import Console
 
-from .rich_helper import error, render_tree
+from .models import Group
 from .gitlab_helper import GitLabHelper
+from .rich_helper import error, render_tree
 from .visibility import get_tree_with_visibility
 from .runner import get_tree_with_runner
 from .pipeline import get_tree_with_pipeline
@@ -20,6 +22,22 @@ console = Console()
 error_console = Console()
 
 app = typer.Typer()
+
+
+def _get_tree(
+    start: str,
+    gitlab: GitLabHelper,
+    get_tree_function: Callable[[GitLabHelper, str], Group],
+) -> None:
+    try:
+        with console.status("Loading...", spinner="monkey"):
+            tree = get_tree_function(gitlab, quote(start, safe=""))
+        with console.pager():
+            console.print(render_tree(tree))
+        raise typer.Exit(0)
+    except RequestException as exc:
+        error_console.print(error(str(exc), "API Error"))
+        raise typer.Exit(10)
 
 
 @app.callback()
@@ -49,17 +67,7 @@ def permissions(
 
     Starting at a group level and traveling down to the repositories
     """
-    try:
-        with console.status("Loading...", spinner="monkey"):
-            tree = get_tree_with_permissions(
-                gitlab=ctx.obj, start=quote(start, safe="")
-            )
-        with console.pager():
-            console.print(render_tree(tree))
-        raise typer.Exit(0)
-    except RequestException as exc:
-        error_console.print(error(str(exc), "API Error"))
-        raise typer.Exit(10)
+    _get_tree(start=start, gitlab=ctx.obj, get_tree_function=get_tree_with_permissions)
 
 
 @app.command()
@@ -71,15 +79,7 @@ def pipeline(
 
     Starting at a group level and traveling down to the repositories
     """
-    try:
-        with console.status("Loading...", spinner="monkey"):
-            tree = get_tree_with_pipeline(gitlab=ctx.obj, start=quote(start, safe=""))
-        with console.pager():
-            console.print(render_tree(tree))
-        raise typer.Exit(0)
-    except RequestException as exc:
-        error_console.print(error(str(exc), "API Error"))
-        raise typer.Exit(10)
+    _get_tree(start=start, gitlab=ctx.obj, get_tree_function=get_tree_with_pipeline)
 
 
 @app.command()
@@ -92,15 +92,7 @@ def visibility(
     Starting at a group level traveling down to the repositories and
     showing the visibility (public, intern, private)
     """
-    try:
-        with console.status("Loading...", spinner="monkey"):
-            tree = get_tree_with_visibility(gitlab=ctx.obj, start=quote(start, safe=""))
-        with console.pager():
-            console.print(render_tree(tree))
-        raise typer.Exit(0)
-    except RequestException as exc:
-        error_console.print(error(str(exc), "API Error"))
-        raise typer.Exit(10)
+    _get_tree(start=start, gitlab=ctx.obj, get_tree_function=get_tree_with_visibility)
 
 
 @app.command()
@@ -112,12 +104,4 @@ def runners(
 
     Starting at a group level and traveling down to the repositories
     """
-    try:
-        with console.status("Loading...", spinner="monkey"):
-            tree = get_tree_with_runner(gitlab=ctx.obj, start=quote(start, safe=""))
-        with console.pager():
-            console.print(render_tree(tree))
-        raise typer.Exit(0)
-    except RequestException as exc:
-        error_console.print(error(str(exc), "API Error"))
-        raise typer.Exit(10)
+    _get_tree(start=start, gitlab=ctx.obj, get_tree_function=get_tree_with_runner)
