@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gitlabtree"
-version = "0.1.2"
+version = "0.1.3"
 description = "CLI tool for gathering GitLab information in tree format"
 authors = ["ubaumann <github@m.ubaumann.ch>"]
 readme = "README.md"
