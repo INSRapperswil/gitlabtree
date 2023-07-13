@@ -55,7 +55,7 @@ def test_get_tree_with_pipeline(
     assert len(tree.groups[0].groups[1].repositories[0].info) == 1
     info = tree.groups[0].groups[1].repositories[0].info[0]
     assert info.text == "main failed 2022-07-30T19:02:06.900+02:00"
-    assert tree.dict() == {
+    assert tree.model_dump() == {
         "groups": [
             {
                 "groups": [

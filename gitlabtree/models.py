@@ -2,7 +2,7 @@
 Pydantic models with __rich__ for easy printing with rich
 """
 from typing import List, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from rich.panel import Panel
 from rich.console import RenderableType
 
@@ -12,11 +12,10 @@ class Info(BaseModel):
     Object to link to repositories or groups
     """
 
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
     text: str
     renderable: Optional[RenderableType] = Field(None, exclude=True)
-
-    class Config:
-        arbitrary_types_allowed = True
 
     def __rich__(self) -> RenderableType:
         if self.renderable:
