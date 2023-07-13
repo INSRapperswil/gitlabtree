@@ -2,4 +2,4 @@
 GitLabTree
 """
 
-__version__ = "0.1.2"  # From Makefile
+__version__ = "0.1.3"  # From Makefile
