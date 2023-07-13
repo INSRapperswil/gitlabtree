@@ -62,7 +62,7 @@ def test_get_tree_with_permissions(
 
     tree = get_tree_with_permissions(gitlab_helper, "start")
 
-    assert tree.dict() == {
+    assert tree.model_dump() == {
         "groups": [
             {
                 "groups": [

@@ -49,7 +49,7 @@ def test_get_tree_with_runner(
     info = tree.repositories[0].info[0]
     assert info.text == "runner1 - True"
     assert len(tree.groups[0].groups[1].repositories[0].info) == 2
-    assert tree.dict() == {
+    assert tree.model_dump() == {
         "groups": [
             {
                 "groups": [

@@ -56,7 +56,7 @@ def test_tree_helper_create_tree(
     assert tree.name == "start"
     assert len(tree.groups) == 1
     assert len(tree.repositories) == 1
-    assert tree.dict() == {
+    assert tree.model_dump() == {
         "groups": [
             {
                 "groups": [
@@ -98,7 +98,7 @@ def test_tree_helper_create_tree_group_processing(
 
     assert tree.info[0].text == "demo"
     assert len(tree.info) == 1
-    assert tree.dict() == {
+    assert tree.model_dump() == {
         "groups": [
             {
                 "groups": [
@@ -140,7 +140,7 @@ def test_tree_helper_create_tree_project_processing(
 
     assert tree.repositories[0].info[0].text == "demo"
     assert len(tree.repositories[0].info) == 1
-    assert tree.dict() == {
+    assert tree.model_dump() == {
         "groups": [
             {
                 "groups": [
@@ -187,7 +187,7 @@ def test_tree_helper_get_tree(
     assert tree.name == "start"
     assert len(tree.groups) == 1
     assert len(tree.repositories) == 1
-    assert tree.dict() == {
+    assert tree.model_dump() == {
         "groups": [
             {
                 "groups": [
