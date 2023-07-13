@@ -18,7 +18,6 @@ def test_tree_helper_init(gitlab_helper: GitLabHelper) -> None:
 
 
 def test_tree_helper_init_processing(gitlab_helper: GitLabHelper) -> None:
-
     th = TreeHelper(
         gitlab=gitlab_helper,
         group_processing=demo_processing,
