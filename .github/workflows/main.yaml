@@ -78,7 +78,7 @@ jobs:
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
 
       - name: Force using UTF-8 encoding for windows tests
-        run: make pytest
+        run: poetry run python -m pytest -vs
         if: ${{ matrix.platform == 'windows-latest' }}
         env:
           PYTHONIOENCODING: utf-8
