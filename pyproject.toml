@@ -2,12 +2,12 @@
 name = "gitlabtree"
 version = "0.1.3"
 description = "CLI tool for gathering GitLab information in tree format"
-authors = [{ name = "ubaumann", email = "github@m.ubaumann.ch" }]
-requires-python = "~=3.9.0"
+authors = [{ name = "ubaumann", email = "github@m.ubaumann.ch" }, { name = "untersander", email = "github@untersander.dev"}]
+requires-python = ">=3.11.0,<4"
 readme = "README.md"
 dependencies = [
-    "typer>=0.9,<0.10",
-    "rich>=13,<14",
+    "typer>=0.19,<0.20",
+    "rich>=14,<15",
     "requests>=2,<3",
     "pydantic~=2.0",
     "types-requests>=2,<3",
@@ -18,12 +18,12 @@ gitlabtree = "gitlabtree.main:app"
 
 [dependency-groups]
 dev = [
-    "pytest>=7,<8",
-    "black>=23,<24",
-    "mypy~=1.4",
-    "pytest-cov>=4,<5",
-    "pylint>=2.14.5,<3",
-    "pygount>=1.4.0,<2",
+    "pytest>=8,<9",
+    "black>=25,<26",
+    "mypy>=1.18,<2",
+    "pytest-cov>=7,<8",
+    "pylint>=3,<4",
+    "pygount>=3,<4",
 ]
 
 [build-system]
