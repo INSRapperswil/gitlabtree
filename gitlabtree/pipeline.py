@@ -1,6 +1,7 @@
 """
 Helper functions for the pipeline cli subcommand
 """
+
 from typing import Dict, Any, List
 
 from .gitlab_helper import GitLabHelper

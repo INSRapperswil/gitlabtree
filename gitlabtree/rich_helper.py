@@ -1,6 +1,7 @@
 """
 Helper functions using rich
 """
+
 from typing import Optional
 from rich.panel import Panel
 from rich.tree import Tree
