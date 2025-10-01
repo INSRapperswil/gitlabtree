@@ -7,33 +7,30 @@ jobs:
     name: linters
     strategy:
       matrix:
-        python-version: [ '3.8' ]
+        python-version: [ '3.9' ]
         platform: [ubuntu-latest]
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v2
       - name: Setup python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
           architecture: x64
 
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v6.8.0
         with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-
-      - name: Cache Poetry virtualenv
-        uses: actions/cache@v2
-        id: cached-poetry-dependencies
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+          # Glob pattern to match files relative to the repository root to control the cache.
+          cache-dependency-glob: |
+            **/pyproject.toml
+            **/uv.lock
+          # Suffix for the cache key
+          cache-suffix: venv-${{ runner.os }}-${{ hashFiles('**/uv.lock') }}
 
       - name: Install Dependencies
-        run: poetry install
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: uv sync
+        if: steps.setup-uv.outputs.cache-hit != 'true'
 
       - name: Run black
         run: make black
@@ -48,37 +45,32 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ '3.8', '3.9', '3.10' ]
+        python-version: [ '3.9', '3.10' ]
         platform: [ubuntu-latest, macOS-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v2
       - name: Setup python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
-          architecture: x64
 
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v6.8.0
         with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-
-      - name: Cache Poetry virtualenv
-        uses: actions/cache@v2
-        id: cached-poetry-dependencies
-        with:
-          path: .venv
-          key: venv-${{ matrix.python-version }}-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-        if: ${{ matrix.platform != 'windows-latest' }}  # windows hangs if using a cached venv
+          # Glob pattern to match files relative to the repository root to control the cache.
+          cache-dependency-glob: |
+            **/pyproject.toml
+            **/uv.lock
+          # Suffix for the cache key
+          cache-suffix: venv-${{ matrix.python-version }}-${{ runner.os }}-${{ hashFiles('**/uv.lock') }}
 
       - name: Install Dependencies
-        run: poetry install
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: uv sync
+        if: steps.setup-uv.outputs.cache-hit != 'true'
 
       - name: Force using UTF-8 encoding for windows tests
-        run: poetry run python -m pytest -vs
+        run: uv run python -m pytest -vs
         if: ${{ matrix.platform == 'windows-latest' }}
         env:
           PYTHONIOENCODING: utf-8
@@ -86,7 +78,7 @@ jobs:
       - name: Run pytest
         run: make pytest
         if: ${{ matrix.platform != 'windows-latest' }}
- 
+
   release:
     name: Releasing to pypi
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
@@ -95,25 +87,31 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v6
         with:
-          python-version: 3.8
-      
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
+          python-version: 3.9
+
+      - uses: astral-sh/setup-uv@v6.8.0
+        with:
+          # Glob pattern to match files relative to the repository root to control the cache.
+          cache-dependency-glob: |
+            **/pyproject.toml
+            **/uv.lock
+          # Suffix for the cache key
+          cache-suffix: venv-${{ runner.os }}-${{ hashFiles('**/uv.lock') }}
 
       - name: prepare release
         run: make fiximageurls
 
       - name: build release
-        run: poetry build
+        run: uv build
 
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
-      
+
       - uses: actions/upload-artifact@v3
         with:
           name: build

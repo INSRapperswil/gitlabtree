@@ -2,6 +2,7 @@
 Tree Helper object to download the data and create the free
 The objects from gitlabtree.models will be used for the tree
 """
+
 from typing import Any, Dict, List, Callable, Optional
 
 from .models import Group, Repository, Info

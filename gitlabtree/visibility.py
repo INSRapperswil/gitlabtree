@@ -1,6 +1,7 @@
 """
 Visibility Helper to get visibility information from GitLabAPI for projects and groups
 """
+
 from typing import Any, List, Dict
 
 from .gitlab_helper import GitLabHelper

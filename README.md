@@ -9,11 +9,16 @@ GitLabTree is a CLI tool for retrieving information from a GitLab server. Mainly
 pip install gitlabtree
 ```
 
+Or run directly with `uv` (requires [uv](https://github.com/astral-sh/uv)):
+```
+uvx gitlabtree
+```
+
 From source:
 ```
 git clone
 cd gitlabtree
-poetry install
+uv sync
 ```
 
 ## Features
@@ -37,4 +42,3 @@ poetry install
 ### Visibility
 
 ![help](doc/imgs/gitlabtree_visibility.png)
-

@@ -1,6 +1,7 @@
 """
 Pydantic models with __rich__ for easy printing with rich
 """
+
 from typing import List, Optional
 from pydantic import BaseModel, Field, ConfigDict
 from rich.panel import Panel

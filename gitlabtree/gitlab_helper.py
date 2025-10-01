@@ -1,6 +1,7 @@
 """
 GitLab Helper and RequestDriver to interact with the GitLab API
 """
+
 from typing import Type, Any
 import requests
 
